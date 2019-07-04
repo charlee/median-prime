@@ -17,7 +17,7 @@ function App() {
         setMedian(res.result);
       })
       .catch(err => {
-        setError(err.error);
+        setError(err);
       });
     }
   };

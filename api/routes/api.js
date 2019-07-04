@@ -8,6 +8,7 @@ router.get('/medianprime', function(req, res, next) {
   if (!n || isNaN(parseInt(n, 10)) || parseInt(n, 10) <= 0) {
     res.status(400);
     res.send({'error': 'n must be an integer'});
+    return;
   }
 
   n = parseInt(n, 10);

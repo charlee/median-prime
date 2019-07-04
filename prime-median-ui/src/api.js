@@ -12,9 +12,12 @@ export const get = (path, params = {}) => {
     if (res.status === 200) {
       return res.json();
     } else {
-      return res.json().then(err => {
-        throw err;
-      });
+      const contentType = res.headers.get('Content-Type');
+      if (contentType && contentType.startsWith('application/json')) {
+        return res.json().then(err => { throw err.error; });
+      } else {
+        return res.text().then(err => { throw err; });
+      }
     }
   });
 };
