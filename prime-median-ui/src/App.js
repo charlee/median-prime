@@ -1,24 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useState } from 'react';
 import './App.css';
+import { getMedianPrime } from './api';
 
 function App() {
+  const [inputValue, setInputValue] = useState('');
+  const [median, setMedian] = useState([]);
+
+  const handleChange = e => {
+    const value = e.target.value;
+    setInputValue(value);
+    if (value) {
+      getMedianPrime(value).then(res => {
+        setMedian(res.result);
+      });
+    }
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Median of Prime numbers</h1>
+      <div>
+        Enter number:
+        <input value={inputValue} onChange={handleChange} />
+      </div>
+      <div>
+        Median: {median.join(', ')}
+      </div>
     </div>
   );
 }
