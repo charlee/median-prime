@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import './App.css';
 import { getMedianPrime } from './api';
+import './App.css';
 
 function App() {
   const [inputValue, setInputValue] = useState('');
@@ -20,11 +20,12 @@ function App() {
     <div className="App">
       <h1>Median of Prime numbers</h1>
       <div>
-        Enter number:
+        <label>Enter number:</label>
         <input value={inputValue} onChange={handleChange} />
       </div>
       <div>
-        Median: {median.join(', ')}
+        <label>Median: </label>
+        {median.length > 0 ? median.join(', ') : '(none)'}
       </div>
     </div>
   );
