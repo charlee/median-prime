@@ -6,24 +6,22 @@ function App() {
   const [inputValue, setInputValue] = useState('');
   const [median, setMedian] = useState([]);
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleChange = e => {
     let value = e.target.value;
     setError('');
     setMedian([]);
 
-    // On my laptop n=100000000 is almost the upper limit that
-    // single node server can handle - it takes about 19s.
-    if (parseInt(value, 10) > 99999999) {
-      value = 99999999;
-    }
-
     setInputValue(value);
     if (value) {
+      setLoading(true);
       getMedianPrime(value).then(res => {
+        setLoading(false);
         setMedian(res.result);
       })
       .catch(err => {
+        setLoading(false);
         setError(err);
       });
     }
@@ -34,11 +32,11 @@ function App() {
       <h1>Median of Prime numbers</h1>
       <div>
         <label>Enter number:</label>
-        <input value={inputValue} onChange={handleChange} />
+        <input value={inputValue} onChange={handleChange} disabled={loading} />
       </div>
       <div>
         <label>Median: </label>
-        <span>{median.length > 0 ? median.join(', ') : '(none)'}</span>
+        <span>{loading ? 'Loading...' : median.length > 0 ? median.join(', ') : '(none)'}</span>
       </div>
       {error &&
       <div className="error">{error}</div>

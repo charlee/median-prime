@@ -186,8 +186,21 @@ class PrimeCache {
      * @param {number} n 
      */
     primes(n) {
+        // 200,000,000 is a practical size that memory can be allocated on my laptop. 
+        // usually it takes about 10-20s to search in this range.
+        const stepSize = 20000000;
+
         if (this._max < n) {
-            this._expand(n);
+            let step = this._max + stepSize;
+            // expand range for stepSize a time, otherwise memory allocation error
+            while (step < n) {
+                this._expand(step);
+                step += stepSize;
+            }
+
+            if (step > n) {
+                this._expand(n);
+            }
         }
 
         return this._cache.filter(a => a < n);
