@@ -9,12 +9,16 @@ const odd = (n) => !!(n % 2);
  * A bit version of dictionary that uses bit operations
  * to construct a true/false dict for odd numbers.
  * 
- * The purpose of this class is to minimize the space complexity.
+ * The purpose of this class is to minimize the memory used.
  * By using native JS object, each number would require at least
  * (assuming we support up to 1e9)
  *   avg 4 bytes for the key + 1 bytes for the true/false = 5 bytes.
  * However by using bit operations, each number requires only 1 bit,
  * reducing the space requirement to 1/40 of native solution.
+ * 
+ * Although the space complexity is still O(n) and there is only
+ * constant difference compared to native solution O(40 * n), at least
+ * this could make the computable upper bound higher.
  */
 class BitOddDict {
 
@@ -186,8 +190,8 @@ class PrimeCache {
      * @param {number} n 
      */
     primes(n) {
-        // 200,000,000 is a practical size that memory can be allocated on my laptop. 
-        // usually it takes about 10-20s to search in this range.
+        // compute 20,000,000 numbers at a time.
+        // to reduce the chance of OOM.
         const stepSize = 20000000;
 
         if (this._max < n) {
