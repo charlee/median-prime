@@ -5,3 +5,7 @@
 label {
   margin-right: 8px;
 }
+
+.error {
+  color: #f00;
+}

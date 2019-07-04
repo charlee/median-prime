@@ -1,15 +1,19 @@
-export const get = (path, params) => {
+export const get = (path, params = {}) => {
   const qs = Object.keys(params)
     .map(k => `${encodeURIComponent(k)}=${encodeURIComponent(params[k])}`)
     .join('&');
-  const url = `${path}?${qs}`;
+
+  let url = path;
+  if (qs) {
+    url += '?' + qs;
+  }
 
   return fetch(url).then(res => {
     if (res.status === 200) {
       return res.json();
     } else {
       return res.json().then(err => {
-        throw new Error(err);
+        throw err;
       });
     }
   });
