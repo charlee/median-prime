@@ -32,7 +32,7 @@ function App() {
       <h1>Median of Prime numbers</h1>
       <div>
         <label>Enter number:</label>
-        <input value={inputValue} onChange={handleChange} disabled={loading} />
+        <input value={inputValue} onChange={handleChange} />
       </div>
       <div>
         <label>Median: </label>
