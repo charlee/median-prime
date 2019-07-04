@@ -9,6 +9,11 @@ class PrimeSieve {
 
     constructor(min, max) {
         this.sieve = {};
+
+        if (min === 1) {
+            min = 3;
+        }
+
         if (!odd(min)) {
             min++;
         }
@@ -127,4 +132,4 @@ const median = (nums) => {
     }
 }
 
-module.exports = { odd, primes, median };
+module.exports = { odd, primes, median, PrimeCache, PrimeSieve };
