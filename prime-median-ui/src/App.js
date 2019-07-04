@@ -8,9 +8,16 @@ function App() {
   const [error, setError] = useState('');
 
   const handleChange = e => {
-    const value = e.target.value;
+    let value = e.target.value;
     setError('');
     setMedian([]);
+
+    // On my laptop n=100000000 is almost the upper limit that
+    // single node server can handle - it takes about 19s.
+    if (parseInt(value, 10) > 99999999) {
+      value = 99999999;
+    }
+
     setInputValue(value);
     if (value) {
       getMedianPrime(value).then(res => {

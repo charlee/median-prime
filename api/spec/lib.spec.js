@@ -1,4 +1,4 @@
-const { PrimeSieve, PrimeCache, primes, median, odd } = require('../lib');
+const { PrimeSieve, BitOddDict, primes, median, odd } = require('../lib');
 
 describe('odd', () => {
     it('should test odd / even', () => {
@@ -7,17 +7,56 @@ describe('odd', () => {
     });
 });
 
+describe('BitOddDict', () => {
+
+    it('should initialize with correct size', () => {
+        expect(new BitOddDict(3, 7).size).toEqual(3);
+        expect(new BitOddDict(5, 12).size).toEqual(4);
+    });
+
+    it('should be all true after init', () => {
+        expect(new BitOddDict(3, 7).isTrue(3)).toBeTruthy();
+        expect(new BitOddDict(3, 7).isTrue(5)).toBeTruthy();
+        expect(new BitOddDict(3, 7).isTrue(7)).toBeTruthy();
+    });
+
+    it('should be all false for even numbers', () => {
+        expect(new BitOddDict(3, 7).isTrue(4)).toBeFalsy();
+    });
+
+    it('should correctly mark give number as false', () => {
+        const dict = new BitOddDict(3, 99);
+        dict.setFalse(51);
+        expect(dict.isTrue(3)).toBeTruthy();
+        expect(dict.isTrue(51)).toBeFalsy();
+        expect(dict.isTrue(99)).toBeTruthy();
+    });
+});
+
 describe('PrimeSieve', () => {
 
     it('should initialize with given range and skip even numbers', () => {
-        expect(new PrimeSieve(1, 10).sieve).toEqual({3: true, 5: true, 7: true, 9: true});
-        expect(new PrimeSieve(2, 11).sieve).toEqual({3: true, 5: true, 7: true, 9: true, 11: true});
+        let sieve = new PrimeSieve(1, 10);
+        expect(sieve.sieve.isTrue(3)).toBeTruthy();
+        expect(sieve.sieve.isTrue(5)).toBeTruthy();
+        expect(sieve.sieve.isTrue(7)).toBeTruthy();
+        expect(sieve.sieve.isTrue(9)).toBeTruthy();
+
+        sieve = new PrimeSieve(2, 11);
+        expect(sieve.sieve.isTrue(3)).toBeTruthy();
+        expect(sieve.sieve.isTrue(5)).toBeTruthy();
+        expect(sieve.sieve.isTrue(7)).toBeTruthy();
+        expect(sieve.sieve.isTrue(9)).toBeTruthy();
+        expect(sieve.sieve.isTrue(11)).toBeTruthy();
     });
 
     it('should cross out multiples', () => {
         let sieve = new PrimeSieve(1, 10);
         sieve.crossOut(3);
-        expect(sieve.sieve).toEqual({3: false, 5: true, 7: true, 9: false});
+        expect(sieve.sieve.isTrue(3)).toBeFalsy();
+        expect(sieve.sieve.isTrue(5)).toBeTruthy();
+        expect(sieve.sieve.isTrue(7)).toBeTruthy();
+        expect(sieve.sieve.isTrue(9)).toBeFalsy();
     })
 
     it('should test prime', () => {
@@ -31,6 +70,7 @@ describe('primes', () => {
     it('should return prime numbers', () => {
         expect(primes(20)).toEqual([2, 3, 5, 7, 11, 13, 17, 19]);
         expect(primes(100).length).toEqual(25);
+        expect(primes(1000).length).toEqual(168);
         expect(primes(10000).length).toEqual(1229);
     });
 });
