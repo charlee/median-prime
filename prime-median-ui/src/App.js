@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { getMedianPrime } from './api';
 import './App.css';
-import { Z_STREAM_ERROR } from 'zlib';
 
 function App() {
   const [inputValue, setInputValue] = useState('');

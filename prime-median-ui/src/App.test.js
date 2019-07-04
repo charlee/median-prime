@@ -5,7 +5,12 @@ import * as api from './api';
 
 jest.mock('./api', () => ({
   // Mock the API using synchronized call
-  getMedianPrime: () => ({ then: f => f({ result: [12, 13]}) }),
+  getMedianPrime: () => ({
+    then: f => {
+      f({ result: [12, 13]});
+      return { catch: () => null };
+    },
+  }),
 }));
 
 it('renders without crashing', () => {
